@@ -53,7 +53,6 @@ import java.io.File
 data class ItemDisease(val name: String, val description: String)
 
 val ItemDiseases = listOf(
-    ItemDisease("Mosaic Virus Disease", "Symptoms appear when infected with a virus, caused by the Cucumber mosaic virus (CMV), one of the most common plant viruses that affects a variety of crops, including eggplants. The virus is primarily transmitted by aphids, which spread the infection from one plant to another as they feed on the sap."),
     ItemDisease("Insect Pest Disease", "Dark-colored sooty mold often develops on the honeydew, which reduces the plant's ability to photosynthesize. These pests feed on the sap of infected plants and transfer the virus to healthy ones, making insect control essential to managing the disease."),
     ItemDisease("Leaf Spot Disease", "Symptoms appear first on lower part of plant and move upwards; initial symptoms are small circular or oval chlorotic spots on leaves which develop light to dark brown centers; as the lesions expand, they may develop concentric zones; severely infested leaves may dry out and curl then drop from the plant."),
     ItemDisease("Healthy Leaf", "A healthy eggplant leaf is an indicator of a well-nourished and thriving plant. These leaves play a crucial role in photosynthesis, enabling the plant to grow and produce fruits efficiently."),
@@ -66,7 +65,7 @@ fun getDiseaseDescription(result: String): String {
 }
 
 @Composable
-fun ResultScreen(navController: NavController, result: String) {
+fun ResultScreen(navController: NavController, result: String, confidence: String) {
     val context = LocalContext.current
     val description = getDiseaseDescription(result)
     val coroutineScope = rememberCoroutineScope()
@@ -179,7 +178,7 @@ fun ResultScreen(navController: NavController, result: String) {
             colors = CardDefaults.cardColors(Color.White),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp)
+                .height(80.dp)
                 .padding(8.dp),
             shape = MaterialTheme.shapes.medium,
         ) {
@@ -192,7 +191,7 @@ fun ResultScreen(navController: NavController, result: String) {
             ) {
 
                 Text(
-                    text = result,
+                    text = "$result\n$confidence%",
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 18.sp),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
@@ -209,7 +208,7 @@ fun ResultScreen(navController: NavController, result: String) {
             colors = CardDefaults.cardColors(Color.White),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(180.dp)
+                .height(160.dp)
                 .padding(8.dp),
             shape = MaterialTheme.shapes.medium,
         ) {

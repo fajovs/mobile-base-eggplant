@@ -26,13 +26,18 @@ fun AppNavigation(){
 
         composable(Routes.resultPage) { backStackEntry ->
             val result = backStackEntry.arguments?.getString("result") ?: ""
+            val confidence = backStackEntry.arguments?.getString("confidence") ?: ""
 
-            ResultScreen(navController, result)
+            ResultScreen(navController, result, confidence)
         }
 
         composable(Routes.itemtPage) { backStackEntry ->
             val itemId = backStackEntry.arguments?.getString("itemId")?.toIntOrNull() ?: 0
             ItemScreen(navController, itemId)
+        }
+
+        composable(Routes.aboutPage) { backStackEntry ->
+            AboutScreen(navController)
         }
 
 

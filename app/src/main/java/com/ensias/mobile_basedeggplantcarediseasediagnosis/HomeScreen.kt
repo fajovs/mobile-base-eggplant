@@ -2,7 +2,7 @@ package com.androidlead.loginappui.ui.screen.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,7 +34,7 @@ import com.ensias.mobile_basedeggplantcarediseasediagnosis.ui.theme.PrimaryViole
 
 @Composable
 fun HomeScreen(navController: NavController) {
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
@@ -41,28 +43,49 @@ fun HomeScreen(navController: NavController) {
                     1f to PrimaryGreen
                 )
             )
-            .systemBarsPadding(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Bottom
+            .systemBarsPadding()
     ) {
-        Spacer(modifier = Modifier.weight(1f))
-        Image(
-            painter = painterResource(id = R.drawable.camera),
-            contentDescription = null,
+        Column(
             modifier = Modifier
-                .size(300.dp)
-                .padding(top = 32.dp)
-        )
-        Spacer(modifier = Modifier.weight(.2f))
-        ActionButton(onClick = { navController.navigate(Routes.diagnoseHistoryPage) }, "Diagnose History")
-        Spacer(modifier = Modifier.weight(.2f))
-        ActionButton(onClick = { navController.navigate(Routes.plantPage)  }, "My Plant")
-        Spacer(modifier = Modifier.weight(1f))
+                .fillMaxSize()
+                .padding(bottom = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+
+        ) {
+            Spacer(modifier = Modifier.height(20.dp))
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(400.dp)
+
+            )
+
+            ActionButton(onClick = { navController.navigate(Routes.plantPage) }, "My Plant")
+
+            ActionButton(onClick = { navController.navigate(Routes.aboutPage) }, "About Us")
+        }
+
+
+        IconButton(
+            onClick = { navController.navigate(Routes.diagnoseHistoryPage) },
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(16.dp)
+                .size(48.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.history),
+                contentDescription = "Diagnose History",
+                tint = Color.White,
+                modifier = Modifier.size(30.dp)
+            )
+        }
     }
 }
 
 @Composable
-fun ActionButton(onClick: () -> Unit, text : String) {
+fun ActionButton(onClick: () -> Unit, text: String) {
     ElevatedButton(
         elevation = ButtonDefaults.elevatedButtonElevation(5.dp),
         onClick = onClick,
@@ -75,7 +98,6 @@ fun ActionButton(onClick: () -> Unit, text : String) {
             containerColor = PrimaryGreenDark,
             contentColor = Color.White
         )
-
     ) {
         Text(text = text, color = Color.White, fontSize = 16.sp)
     }

@@ -107,6 +107,7 @@ fun PlantScreen(navController: NavController){
             imageBitmap = BitmapFactory.decodeStream(inputStream)
             imageBitmap?.let { bitmap ->
                 classifyImage(bitmap, context) { result, confidence ->
+
                     resultText = result
 
                     val path = context.getExternalFilesDir(null)!!.absolutePath
@@ -118,7 +119,7 @@ fun PlantScreen(navController: NavController){
                     fOut.close()
 
 
-                    navController.navigate("ResultPage/${resultText}")
+                    navController.navigate("ResultPage/${resultText}/${confidence}")
 
 
                 }
@@ -145,7 +146,7 @@ fun PlantScreen(navController: NavController){
                         fOut.close()
 
 
-                        navController.navigate("ResultPage/${resultText}")
+                        navController.navigate("ResultPage/${resultText}/${confidence}")
                     }
                 }
             }
@@ -211,9 +212,9 @@ fun PlantScreen(navController: NavController){
             }
         }
 
-        Spacer(modifier = Modifier.weight(2f))
+
         Image(
-            painter = painterResource(id = R.drawable.plant),
+            painter = painterResource(id = R.drawable.camera),
             contentDescription = null,
             modifier = Modifier
                 .size(300.dp)
@@ -304,14 +305,15 @@ fun classifyImage(image: Bitmap, context: Context, onResult: (String, String) ->
         val outputFeature0 = outputs.outputFeature0AsTensorBuffer
 
         val confidences = outputFeature0.floatArray
-        val classes = arrayOf("Mosaic Virus Disease", "Insect Pest Disease", "Leaf Spot Disease", "Healthy Leaf", "Wilt Disease")
+        val classes = arrayOf("Insect Pest Disease", "Leaf Spot Disease", "Healthy Leaf", "Wilt Disease")
         val maxPos = confidences.indices.maxByOrNull { confidences[it] } ?: 0
         val result = classes[maxPos]
+        val maxConfidence = confidences[maxPos]
+        val confidenceText = "${String.format("%.2f", maxConfidence * 100)}"
 
-
-        val confidenceText = confidences.mapIndexed { index, confidence ->
-            "${classes[index]}: ${confidence * 100}%"
-        }.joinToString("\n")
+//        val confidenceText = confidences.mapIndexed { index, confidence ->
+//            "${classes[index]}: ${confidence * 100}%"
+//        }.joinToString("\n")
 
         onResult(result, confidenceText)
 
